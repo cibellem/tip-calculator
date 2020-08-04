@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -28,27 +28,43 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import TipButton from './Button';
+import CalculateTip from './BtnTip';
 
 const App = () => {
+  const [amount, setAmount] = useState(Number(0));
+  const [tip, setTip] = useState(15);
+  const [amountToTip, setAmountToTip] = useState(Number(0));
+  const [total, setTotal] = useState(Number(0));
+
+  function calculateTip(value) {
+    setAmount(parseInt(amount));
+    let tipAmount = (parseInt(value) / 100) * parseInt(tip);
+    setAmountToTip(tipAmount);
+    let bill = parseInt(amount) + parseInt(amountToTip);
+    alert(bill);
+    setTotal(bill);
+  }
+
   return (
-    <>
+    <View style={styles.engine}>
       <View style={styles.sectionContainer}>
-        <Text>enter total:</Text>
-        <TextInput style={styles.sectionTitle}>$23</TextInput>
+        <Text style={styles.header}>Tip Calculator</Text>
+        <Text style={styles.sectionP}>Enter the bill total</Text>
+        <TextInput
+          keyboardType="numeric"
+          onChangeText={calculateTip}
+          style={styles.sectionTitle}></TextInput>
+        <Text style={styles.sectionP}>You tip: ${amountToTip}</Text>
+        <Text style={styles.sectionP}>Total plus tip: ${total}</Text>
       </View>
       <View style={styles.separator}></View>
       <View style={styles.sectionInputs}>
-        <TipButton title="15%" />
-        <TipButton title="20%" />
-        <TipButton title="25%" />
+        <TipButton title="15%" onPress={() => setTip(15)} />
+        <TipButton title="20%" onPress={() => setTip(20)} />
+        <TipButton title="25%" onPress={() => setTip(25)} />
       </View>
-      <View>
-        <Button
-          title="calculate"
-          color="#537d0d"
-          accessibilityLabel="Click to calculate tip"></Button>
-      </View>
-    </>
+      {/* <CalculateTip onPress={calculateTip} title="calculate"></CalculateTip> */}
+    </View>
   );
 };
 //
@@ -57,19 +73,19 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lighter,
   },
   engine: {
-    position: 'absolute',
-    right: 0,
+    backgroundColor: '#2222',
   },
 
   sectionContainer: {
-    backgroundColor: '#000000',
-    flex: 1,
+    backgroundColor: '#333333',
+    display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   sectionInputs: {
     display: 'flex',
-    backgroundColor: '#000000',
+    backgroundColor: '#333333',
     flexDirection: 'row',
     padding: 40,
     justifyContent: 'space-around',
@@ -78,12 +94,24 @@ const styles = StyleSheet.create({
     fontSize: 100,
     fontWeight: '800',
     color: '#ffffff',
-    borderBottomWidth: 5,
+    borderBottomWidth: 8,
+    marginBottom: 10,
     borderBottomColor: '#rgba(159, 243, 20, 0.5)',
+  },
+  sectionP: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#ffffff',
   },
   sectionTip: {
     flex: 1,
     fontSize: 40,
+  },
+  header: {
+    fontSize: 50,
+    padding: 10,
+    fontWeight: '800',
+    color: '#ffffff',
   },
 });
 
