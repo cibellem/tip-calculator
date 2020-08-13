@@ -31,17 +31,15 @@ import TipButton from './Button';
 import CalculateTip from './BtnTip';
 
 const App = () => {
-  const [amount, setAmount] = useState(Number(0));
-  const [tip, setTip] = useState(15);
-  const [amountToTip, setAmountToTip] = useState(Number(0));
-  const [total, setTotal] = useState(Number(0));
+  const [amount, setAmount] = useState(0);
+  const [tip, setTip] = useState(0);
+  const [amountToTip, setAmountToTip] = useState(0);
+  const [total, setTotal] = useState(0);
 
   function calculateTip(value) {
-    setAmount(parseInt(amount));
-    let tipAmount = (parseInt(value) / 100) * parseInt(tip);
+    let tipAmount = (parseInt(amount) / 100) * parseInt(tip);
     setAmountToTip(tipAmount);
-    let bill = parseInt(amount) + parseInt(amountToTip);
-    alert(bill);
+    let bill = Number(amount) + Number(tipAmount);  
     setTotal(bill);
   }
 
@@ -49,10 +47,11 @@ const App = () => {
     <View style={styles.engine}>
       <View style={styles.sectionContainer}>
         <Text style={styles.header}>Tip Calculator</Text>
-        <Text style={styles.sectionP}>Enter the bill total</Text>
+        <Text style={styles.sectionP}>Enter the bill total:</Text>
         <TextInput
           keyboardType="numeric"
-          onChangeText={calculateTip}
+          onChangeText={(value) => setAmount(value)}
+          value={amount}
           style={styles.sectionTitle}></TextInput>
         <Text style={styles.sectionP}>You tip: ${amountToTip}</Text>
         <Text style={styles.sectionP}>Total plus tip: ${total}</Text>
@@ -63,7 +62,9 @@ const App = () => {
         <TipButton title="20%" onPress={() => setTip(20)} />
         <TipButton title="25%" onPress={() => setTip(25)} />
       </View>
-      {/* <CalculateTip onPress={calculateTip} title="calculate"></CalculateTip> */}
+      <View style={styles.button}>
+        <CalculateTip onPress={calculateTip} title="calculate"></CalculateTip>
+      </View>
     </View>
   );
 };
@@ -74,6 +75,7 @@ const styles = StyleSheet.create({
   },
   engine: {
     backgroundColor: '#2222',
+    
   },
 
   sectionContainer: {
@@ -82,12 +84,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 50
   },
   sectionInputs: {
     display: 'flex',
     backgroundColor: '#333333',
     flexDirection: 'row',
-    padding: 40,
+    padding: 50,
     justifyContent: 'space-around',
   },
   sectionTitle: {
@@ -113,6 +116,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#ffffff',
   },
+
 });
 
 export default App;
