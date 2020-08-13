@@ -2,4 +2,4 @@
 
 Practicing with react-native
 
-![gif](app.gif)
+![gif](tip.gif){:class="img-responsive"}
